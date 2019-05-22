@@ -11,6 +11,8 @@ $vars = Get-Content -Path $configdir\vars.json | ConvertFrom-Json
 $inputfile = Import-CSV $vars."input-csv" -Encoding $vars."input-encoding" -Delimiter $vars."input-delimiter"
 
 
+
+
 <#
  Uses mapconf.csv and all mapfiles defined therein as configuration.
  For each column defined, applies the map.csv defined.
@@ -64,7 +66,7 @@ function clean-dates {
             }
             }catch{
             "error:"
-            echo "line" $linenb
+            echo "line:" $linenb
             echo "column" $_.$column
             echo "format" $format
             echo "output" $output
@@ -152,7 +154,12 @@ if ($vars."operation-clean-dates") {
 }
 
 if ($vars."operation-clean-datetimes") {
+    try{
+    print $vars."operation-clean-datetimes"
     clean-datetimes
+    }catch{
+        pause
+    }
 }
 
 if ($vars."operation-clean-nulls") {
